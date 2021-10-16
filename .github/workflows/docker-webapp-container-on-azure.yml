@@ -29,7 +29,7 @@ jobs:
       with:
          azcliversion: latest
          inlineScript: |
-           az webapp create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --plan ${{ env.AZURE_APP_PLAN }} --name ${{ env.AZURE_WEBAPP_NAME }}  -i nginx
+           az webapp create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --plan ${{ env.AZURE_APP_PLAN }} --name ${{ env.AZURE_WEBAPP_NAME }}  -i myregistry.azurecr.io/cart-api:1.0,
     - name: ACR authentication
       uses: azure/docker-login@v1
       with:
@@ -38,8 +38,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}    
     - name: Docker Build & Push to ACR
       run: |
-        docker build . -t ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }}
-        docker push ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }} 
+        docker build . -t ${{ env.CONTAINER_REGISTRY }}/cart-api:1.0
+        docker push ${{ env.CONTAINER_REGISTRY }}/cart-api:1.0
 
     - name: Set Web App ACR authentication
       uses: Azure/appservice-settings@v1
